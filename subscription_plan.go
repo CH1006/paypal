@@ -7,6 +7,13 @@ import (
 	"time"
 )
 
+type PricingModel string
+
+const (
+	PricingModelVolume PricingModel = "VOLUME"
+	PricingModelTiered PricingModel = "TIERED"
+)
+
 type (
 	// SubscriptionDetailResp struct
 	SubscriptionPlan struct {
@@ -39,10 +46,18 @@ type (
 	}
 
 	PricingScheme struct {
-		Version    int       `json:"version"`
-		FixedPrice Money     `json:"fixed_price"`
-		CreateTime time.Time `json:"create_time"`
-		UpdateTime time.Time `json:"update_time"`
+		Version      int          `json:"version"`
+		FixedPrice   Money        `json:"fixed_price"`
+		CreateTime   time.Time    `json:"create_time"`
+		UpdateTime   time.Time    `json:"update_time"`
+		PricingModel PricingModel `json:"pricing_modelenum"`
+		Tiers        []Tier       `json:"tiers"`
+	}
+
+	Tier struct {
+		Amount           Money  `json:"amount"`
+		StartingQuantity string `json:"starting_quantity"`
+		EndingQuantity   string `json:"ending_quantity"`
 	}
 
 	PricingSchemeUpdateRequest struct {
